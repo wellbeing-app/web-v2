@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "title": "Wellbeing",
+    "description": "App for your daily mental health"
+  },
+  "nav": {
+    "nav_home": "Home",
+    "nav_manifest": "Manifesto",
+    "nav_waitlist": "Waitlist",
+    "nav_contact": "Contact"
+  },
+  "home": {
+    "badge": "Welcome to a new beginning",
+    "title": "Space for your mind.",
+    "description": "No pressure. No notifications. Just a safe place designed for your peace and daily balance.",
+    "waitlistBtn": "Join the Waitlist",
+    "manifestoBtn": "Read Manifesto"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "title": "Wellbeing",
+    "description": "Aplikace pro každodenní duševní zdraví"
+  },
+  "nav": {
+    "nav_home": "Domů",
+    "nav_manifest": "Manifest",
+    "nav_waitlist": "Waitlist",
+    "nav_contact": "Kontakt"
+  },
+  "home": {
+    "badge": "Vítejte v novém začátku",
+    "title": "Prostor pro tvou mysl.",
+    "description": "Žádný tlak. Žádné notifikace. Jen bezpečné místo navržené pro tvůj klid a každodenní rovnováhu.",
+    "waitlistBtn": "Přidat se na Waitlist",
+    "manifestoBtn": "Číst Manifest"
+  }
+}
