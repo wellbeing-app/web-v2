@@ -6,7 +6,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import "../globals.css";
 import { getDictionary } from "@/lib/dictionary";
 import { Navbar } from "@/components/navbar";
-import { AppBackground } from "@/components/app-background";
 
 export async function generateMetadata({ params } : { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
@@ -27,11 +26,10 @@ export default async function RootLayout({
   const dict = await getDictionary(resolvedParams.lang as 'en' | 'cs');
   
   return (
-    <html lang={resolvedParams.lang} className={fontVariables} suppressHydrationWarning>
-      <body className="antialiased min-h-screen bg-background text-foreground font-sans flex flex-col">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+    <html lang={resolvedParams.lang} className={`${fontVariables} disable-transitions`} suppressHydrationWarning>
+      <body className="antialiased min-h-screen bg-background text-foreground font-sans flex flex-col theme-transition">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Navbar dict={dict} lang={resolvedParams.lang} />
-          <AppBackground />
           {children}
         </ThemeProvider>
       </body>

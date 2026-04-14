@@ -19,9 +19,9 @@ export function Navbar({ dict, lang }: { dict: { nav: Record<string, string> }; 
   return (
     <>
       <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
-        <nav className="glass px-6 py-3 rounded-full flex items-center justify-between border border-border">
+        <nav className="glass theme-transition px-6 py-3 rounded-full flex items-center justify-between border border-border">
           <Link href={`/${lang}`} className="text-xl font-bold tracking-tight">
-            Wellbeing
+            Wellbeing.
           </Link>
 
           {/* Desktop Nav */}
@@ -30,12 +30,12 @@ export function Navbar({ dict, lang }: { dict: { nav: Record<string, string> }; 
               <Link 
                 key={link.label} 
                 href={link.href}
-                className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors hover:bg-secondary/50 px-3 py-1.5 rounded-full"
+                className="text-sm font-medium text-foreground/80 hover:text-foreground theme-transition hover:bg-secondary/50 px-3 py-1.5 rounded-full"
               >
                 {link.label}
               </Link>
             ))}
-            <div className="flex items-center gap-1 p-1 bg-secondary/30 border border-border/50 backdrop-blur-sm rounded-full">
+            <div className="flex items-center gap-1 p-1 bg-secondary/30 border border-border/50 backdrop-blur-sm rounded-full theme-transition">
               <LanguageSwitcher lang={lang} />
               <ThemeToggle />
             </div>
@@ -43,7 +43,7 @@ export function Navbar({ dict, lang }: { dict: { nav: Record<string, string> }; 
 
           {/* Mobile Nav Toggle */}
           <div className="flex md:hidden items-center gap-2">
-            <div className="flex items-center gap-1 p-1 bg-secondary/30 border border-border/50 backdrop-blur-sm rounded-full">
+            <div className="flex items-center gap-1 p-1 bg-secondary/30 border border-border/50 backdrop-blur-sm rounded-full theme-transition">
               <LanguageSwitcher lang={lang} />
               <ThemeToggle />
             </div>
@@ -60,12 +60,12 @@ export function Navbar({ dict, lang }: { dict: { nav: Record<string, string> }; 
 
       {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div className="fixed top-24 left-1/2 -translate-x-1/2 w-[95%] z-40 md:hidden glass rounded-3xl p-6 border border-border flex flex-col items-center gap-4 animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 w-[95%] z-40 md:hidden glass rounded-3xl p-6 border border-border flex flex-col items-center gap-4 animate-in fade-in zoom-in-95 theme-transition">
           {navLinks.map((link) => (
             <Link
               key={link.label}
               href={link.href}
-              className="text-lg font-medium py-3 px-6 hover:bg-secondary/50 w-full text-center rounded-xl transition-colors"
+              className="text-lg font-medium py-3 px-6 hover:bg-secondary/50 w-full text-center rounded-xl theme-transition"
               onClick={() => setIsOpen(false)}
             >
               {link.label}

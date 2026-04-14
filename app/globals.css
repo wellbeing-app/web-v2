@@ -46,12 +46,18 @@
   Define core palette once, then distribute it semantically.
 */
 @layer base {
+  *, *::before, *::after {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: ease-in-out;
+    transition-duration: 500ms;
+  }
+
   :root {
     /* --- CORE PALETTE (Base Tokens) --- */
     --base-cloud: #F0EEE9;
     --base-charcoal: #363533;
-    --base-ice: #d4e4f1;
-    --base-orchid: #dbd3dc;
+    --base-silver: #e2dfd8; /* Replaces Ice */
+    --base-stone: #d1cdc5;  /* Replaces Orchid */
     
     /* Shared layout tokens */
     --base-surface: #F7F6F2;
@@ -60,7 +66,7 @@
     /* Dark mode specific base tokens */
     --base-surface-dark: #252423;
     --base-edge-dark: #38352f;
-    --base-ice-deep: #2a4a63;
+    --base-charcoal-deep: #1a1918; /* Replaces Deep Ice */
 
     /* --- SEMANTIC TOKENS (Light Mode) --- */
     --background: var(--base-cloud);
@@ -72,8 +78,8 @@
     --popover: var(--base-surface);
     --popover-foreground: var(--base-charcoal);
 
-    --primary: var(--base-ice);
-    --primary-foreground: var(--base-charcoal);
+    --primary: var(--base-charcoal);
+    --primary-foreground: var(--base-cloud);
 
     --secondary: #e8e4e8;
     --secondary-foreground: var(--base-charcoal);
@@ -81,14 +87,14 @@
     --muted: #e8e6e1;
     --muted-foreground: #5c5a57;
 
-    --accent: var(--base-orchid);
+    --accent: var(--base-silver);
     --accent-foreground: var(--base-charcoal);
 
     --destructive: #e07070;
 
     --border: var(--base-edge);
     --input: var(--base-edge);
-    --ring: var(--base-ice);
+    --ring: var(--base-charcoal);
 
     --radius: 0.5rem;
 
@@ -108,8 +114,8 @@
     --popover: var(--base-surface-dark);
     --popover-foreground: var(--base-cloud);
 
-    --primary: var(--base-ice-deep);
-    --primary-foreground: var(--base-ice);
+    --primary: var(--base-cloud);
+    --primary-foreground: var(--base-charcoal-deep);
 
     --secondary: #2e2b30;
     --secondary-foreground: var(--base-cloud);
@@ -117,14 +123,14 @@
     --muted: #2a2928;
     --muted-foreground: #9e9b97;
 
-    --accent: #3a3040;
-    --accent-foreground: var(--base-orchid);
+    --accent: #2e2d2c;
+    --accent-foreground: var(--base-stone);
 
     --destructive: #c0504a;
 
     --border: var(--base-edge-dark);
     --input: var(--base-edge-dark);
-    --ring: var(--base-ice-deep);
+    --ring: var(--base-cloud);
 
     --glass-bg: rgba(37, 36, 35, 0.75);
     --glass-border: rgba(255, 255, 255, 0.08);
@@ -143,9 +149,16 @@
     backdrop-filter: blur(24px) saturate(120%);
     -webkit-backdrop-filter: blur(24px) saturate(120%);
     border: 1px solid var(--glass-border);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  .theme-transition {
+    @apply transition-colors duration-500 ease-in-out;
   }
 
+  .theme-transition-all {
+    @apply transition-all duration-500 ease-in-out;
+  }
+}
 
-
+.disable-transitions * {
+  transition: none !important;
 }
