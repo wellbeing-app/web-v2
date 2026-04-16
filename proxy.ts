@@ -4,9 +4,18 @@ import { match as matchLocale } from "@formatjs/intl-localematcher";
 import Negotiator from "negotiator";
 
 const locales = ["en", "cs"];
-const defaultLocale = "cs";
+const defaultLocale = "en"; // Default to English for international users
+const localeCookieName = "locale";
 
-function getLocale(request: NextRequest): string {
+function getLocaleFromCookie(request: NextRequest): string | undefined {
+  const cookie = request.cookies.get(localeCookieName)?.value;
+  if (cookie && locales.includes(cookie)) {
+    return cookie;
+  }
+  return undefined;
+}
+
+function getLocaleFromAcceptLanguage(request: NextRequest): string | undefined {
   const negotiatorHeaders: Record<string, string> = {};
   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
 
@@ -14,7 +23,7 @@ function getLocale(request: NextRequest): string {
   try {
     return matchLocale(languages, locales, defaultLocale);
   } catch {
-    return defaultLocale;
+    return undefined;
   }
 }
 
@@ -27,9 +36,23 @@ export function proxy(request: NextRequest) {
   );
 
   if (pathnameIsMissingLocale) {
-    const locale = getLocale(request);
+    // 1. Check cookie preference first
+    let locale = getLocaleFromCookie(request);
+
+    // 2. Fall back to Accept-Language header
+    if (!locale) {
+      locale = getLocaleFromAcceptLanguage(request);
+    }
+
+    // 3. Use default locale (en)
+    if (!locale) {
+      locale = defaultLocale;
+    }
+
     return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url));
   }
+
+  return NextResponse.next();
 }
 
 export const config = {

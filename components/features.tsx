@@ -1,7 +1,8 @@
 import React from "react";
-import { Dictionary } from "@/lib/dictionary";
+import { useDictionary } from "@/components/providers/dictionary-provider";
 
-export function Features({ dict }: { dict: Dictionary }) {
+export function Features() {
+  const dict = useDictionary();
   return (
     <section id="features" className="space-y-8 flex flex-col items-center">
       <div className="space-y-4">

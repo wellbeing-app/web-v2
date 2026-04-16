@@ -1,0 +1,1 @@
+- [Localization improvements](localization.md) — Cookie-based locale preference, Accept-Language detection, and hreflang tags for en/cs locales

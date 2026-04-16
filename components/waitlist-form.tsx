@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import { Dictionary } from "@/lib/dictionary";
+import { useDictionary } from "@/components/providers/dictionary-provider";
 
-export function WaitlistForm({ dict }: { dict: Dictionary }) {
+export function WaitlistForm() {
+  const dict = useDictionary();
   return (
     <section id="contact" className="space-y-8 flex flex-col items-center w-full max-w-md mx-auto">
       <div className="space-y-4">

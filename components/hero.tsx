@@ -1,7 +1,8 @@
 import React from "react";
-import { Dictionary } from "@/lib/dictionary";
+import { useDictionary } from "@/components/providers/dictionary-provider";
 
-export function Hero({ dict }: { dict: Dictionary }) {
+export function Hero() {
+  const dict = useDictionary();
   return (
     <section id="home" className="space-y-8 flex flex-col items-center">
       <span className="inline-flex items-center bg-secondary/30 border border-border/50 backdrop-blur-sm text-secondary-foreground grayscale text-sm font-medium px-4 py-1.5 rounded-full transition-colors duration-300 animate-fade-in">

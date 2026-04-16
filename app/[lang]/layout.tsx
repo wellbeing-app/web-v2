@@ -6,13 +6,39 @@ import { ThemeProvider } from "@/components/theme-provider";
 import "../globals.css";
 import { getDictionary } from "@/lib/dictionary";
 import { Navbar } from "@/components/navbar";
+import { DictionaryProvider } from "@/components/providers/dictionary-provider";
 
 export async function generateMetadata({ params } : { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   const dict = await getDictionary(resolvedParams.lang as 'en' | 'cs');
+  const baseUrl = 'https://wellbeing.zezulka.me';
+
+  //TODO: add real contact info and social media links
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Wellbeing App",
+    url: baseUrl,
+    logo: `${baseUrl}/logo.png`,
+    sameAs: [
+      "https://www.linkedin.com/company/wellbeing-app",
+      "https://twitter.com/wellbeingapp",
+    ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+420-123-456-789",
+      contactType: "customer service",
+      areaServed: "CZ",
+      availableLanguage: ["English", "Czech"],
+    },
+  };
+
   return {
     title: dict.metadata.title,
     description: dict.metadata.description,
+    other: {
+      'script': [JSON.stringify(organizationJsonLd)],
+    },
   };
 }
 
@@ -23,17 +49,17 @@ export default async function RootLayout({
   params
 }: React.PropsWithChildren<{ params: Promise<{ lang: string }> }>) {
   const resolvedParams = await params;
-  const dict = await getDictionary(resolvedParams.lang as 'en' | 'cs');
-  
+  const dictionary = await getDictionary(resolvedParams.lang as 'en' | 'cs');
+
   return (
     <html lang={resolvedParams.lang} suppressHydrationWarning>
-      {/* 2. FontVariables se přesunuly sem do body */}
       <body className={`${fontVariables} antialiased min-h-screen bg-background text-foreground flex flex-col`}>
-        {/* 3. Zapnuli jsme disableTransitionOnChange (smazáním ={false}), čímž zmizí FOUC po reloadu */}
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <Navbar dict={dict} lang={resolvedParams.lang} />
-          {children}
-        </ThemeProvider>
+        <DictionaryProvider dictionary={dictionary}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <Navbar lang={resolvedParams.lang} />
+            {children}
+          </ThemeProvider>
+        </DictionaryProvider>
       </body>
     </html>
   );

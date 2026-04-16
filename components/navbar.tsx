@@ -5,9 +5,11 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { useDictionary } from "@/components/providers/dictionary-provider";
 
-export function Navbar({ dict, lang }: { dict: { nav: Record<string, string> }; lang: string }) {
+export function Navbar({ lang }: { lang: string }) {
   const [isOpen, setIsOpen] = useState(false);
+  const dict = useDictionary();
 
   const navLinks = [
     { href: `/${lang}`, label: dict.nav.nav_home },

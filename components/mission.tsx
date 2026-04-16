@@ -1,7 +1,8 @@
 import React from "react";
-import { Dictionary } from "@/lib/dictionary";
+import { useDictionary } from "@/components/providers/dictionary-provider";
 
-export function Mission({ dict }: { dict: Dictionary }) {
+export function Mission() {
+  const dict = useDictionary();
   return (
     <section id="vision" className="space-y-6 flex flex-col items-center">
       <h2 className="text-3xl md:text-5xl font-bold tracking-tight">

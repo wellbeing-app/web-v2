@@ -88,7 +88,7 @@ export function StackedCards({ cards }: StackedCardsProps) {
           >
             <div
               id={card.id}
-              className="sticky top-[15vh] h-[70vh] w-full max-w-[800px] mx-auto flex items-center justify-center will-change-transform rounded-4xl"
+              className="sticky top-[15vh] h-[70vh] w-full max-w-200 mx-auto flex items-center justify-center will-change-transform rounded-4xl"
             >
               <div className="bg-card border border-border w-full h-full flex flex-col items-center justify-center p-10 md:p-16 rounded-4xl text-center theme-transition overflow-y-auto no-scrollbar">
                 {card.component}
