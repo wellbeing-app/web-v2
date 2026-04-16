@@ -2,9 +2,9 @@ name: Auto Prettier Runner
 
 on:
   push:
-    branches: ["**"]
+    branches: ['**']
   pull_request:
-    branches: ["**"]
+    branches: ['**']
 
 permissions:
   contents: write
@@ -16,7 +16,7 @@ jobs:
   prettier:
     name: Auto Format Code
     runs-on: ubuntu-latest
-    if: github.event.commits[0].author.name != 'github-actions[bot]'
+    if: github.actor != 'github-actions[bot]'
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -39,7 +39,7 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "style: applied auto-formatting with prettier"
-          commit_user_name: "github-actions[bot]"
-          commit_user_email: "github-actions[bot]@users.noreply.github.com"
-          commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+          commit_message: 'style: applied auto-formatting with prettier'
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'

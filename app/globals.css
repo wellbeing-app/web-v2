@@ -181,6 +181,23 @@
     display: none;
   }
 
+  /* Accessibility: Ensure links in text blocks are distinguishable */
+  main p a,
+  main ul a,
+  main ol a,
+  main .prose a {
+    text-decoration: underline !important;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color 0.2s;
+  }
+  main p a:hover,
+  main ul a:hover,
+  main ol a:hover,
+  main .prose a:hover {
+    text-decoration-thickness: 2px;
+  }
+
   /* Skip to main content link - hidden visually, revealed on focus */
   .sr-only {
     position: absolute;

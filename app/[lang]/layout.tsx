@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import { GeistPixelSquare } from 'geist/font/pixel';
@@ -74,17 +75,24 @@ export default async function RootLayout({
 }: React.PropsWithChildren<{ params: Promise<{ lang: string }> }>) {
   const resolvedParams = await params;
   const dictionary = await getDictionary(resolvedParams.lang as 'en' | 'cs');
+  
+  // Retrieve the nonce from middleware (proxy.ts)
+  const headersList = await headers();
+  const nonce = headersList.get('x-nonce') || '';
 
   return (
     <html lang={resolvedParams.lang} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
+          nonce={nonce}
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
       </head>
       <body
         className={`${fontVariables} antialiased min-h-screen bg-background text-foreground flex flex-col`}
+        suppressHydrationWarning
       >
         <DictionaryProvider dictionary={dictionary}>
           <ThemeProvider
@@ -92,12 +100,18 @@ export default async function RootLayout({
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
+            nonce={nonce}
           >
-            <a href="#main-content" className="sr-only">
+            <a 
+              href="#main-content" 
+              className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-100 focus:p-4 focus:bg-background focus:border focus:rounded-md focus:shadow-lg"
+            >
               {dictionary.accessibility.skipToMain}
             </a>
             <Navbar lang={resolvedParams.lang} />
-            {children}
+            <main id="main-content" className="flex-1 focus:outline-none">
+              {children}
+            </main>
           </ThemeProvider>
         </DictionaryProvider>
       </body>
