@@ -9,7 +9,7 @@ interface SmoothScrollProps {
 
 /**
  * SmoothScroll Provider
- * 
+ *
  * Initialized Lenis for inertial/momentum scrolling.
  * Follows Apple's cinematic presentation style.
  */

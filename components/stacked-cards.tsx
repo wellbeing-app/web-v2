@@ -15,19 +15,11 @@ interface StackedCardsProps {
 
 /**
  * Card Component
- * 
+ *
  * Handles individual card animations using Framer Motion.
  * Scales, blurs, and fades out based on its own scroll progress relative to the viewport.
  */
-function Card({ 
-  card, 
-  index, 
-  totalCards 
-}: { 
-  card: CardData; 
-  index: number; 
-  totalCards: number;
-}) {
+function Card({ card, index, totalCards }: { card: CardData; index: number; totalCards: number }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const isLast = index === totalCards - 1;
 
@@ -37,21 +29,21 @@ function Card({
   // This interval corresponds exactly to the time this card is 'active' or being stacked upon.
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"]
+    offset: ['start start', 'end start'],
   });
 
   // Smooth out the scroll progress
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 80, // Slightly softer for better stability
-    damping: 35,   // Higher damping to prevent oscillation/blinking
-    restDelta: 0.0001
+    damping: 35, // Higher damping to prevent oscillation/blinking
+    restDelta: 0.0001,
   });
 
   // Scale, blur, and opacity transformations
   // The first card (index 0) is already at the top, so we keep it solid longer (until 60%)
   // to prevent it from 'stalling' or hiding prematurely compared to cards that enter from below.
   const range = index === 0 ? [0, 0.6, 1] : [0, 0.1, 1];
-  
+
   const scale = useTransform(smoothProgress, range, [1, 1, 0.95]);
   const blur = useTransform(smoothProgress, range, [0, 0, 4]);
   const opacity = useTransform(smoothProgress, range, [1, 1, 0.8]);
@@ -86,19 +78,14 @@ function Card({
 
 /**
  * StackedCards Component
- * 
+ *
  * Implements the Apple-style Rolodex stacking effect using Framer Motion.
  */
 export function StackedCards({ cards }: StackedCardsProps) {
   return (
     <div className="w-full px-4">
       {cards.map((card, i) => (
-        <Card 
-          key={card.id} 
-          card={card} 
-          index={i} 
-          totalCards={cards.length} 
-        />
+        <Card key={card.id} card={card} index={i} totalCards={cards.length} />
       ))}
     </div>
   );
