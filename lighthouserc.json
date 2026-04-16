@@ -3,10 +3,7 @@
     "collect": {
       "numberOfRuns": 3,
       "startServerCommand": "npm run start",
-      "url": [
-        "http://localhost:3000/en",
-        "http://localhost:3000/cs"
-      ]
+      "url": ["http://localhost:3000/en", "http://localhost:3000/cs"]
     },
     "assert": {
       "preset": "lighthouse:no-pwa",
