@@ -16,9 +16,9 @@ export async function POST(request: Request) {
         scope.setTag('violated-directive', cspReport['violated-directive']);
         scope.setTag('blocked-uri', cspReport['blocked-uri']);
         scope.setContext('csp_report', cspReport);
-        
+
         Sentry.captureMessage(
-          `CSP Violation: ${cspReport['blocked-uri']} blocked by ${cspReport['violated-directive']}`,
+          `CSP Violation: ${cspReport['blocked-uri']} blocked by ${cspReport['violated-directive']}`
         );
       });
     }
