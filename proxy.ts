@@ -47,6 +47,7 @@ export function proxy(request: NextRequest) {
     frame-ancestors 'none';
     upgrade-insecure-requests;
     report-uri ${reportUri};
+    connect-src 'self' https://*.sentry.io https://*.ingest.de.sentry.io;
   `
     .replace(/\s{2,}/g, ' ')
     .trim();
@@ -60,6 +61,15 @@ export function proxy(request: NextRequest) {
   const pathnameIsMissingLocale = locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
+
+  // Skip locale redirection for Sentry monitoring tunnel and API routes
+  if (pathname === '/monitoring' || pathname.startsWith('/api/')) {
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
+  }
 
   if (pathnameIsMissingLocale) {
     let locale = getLocaleFromCookie(request);
@@ -91,6 +101,6 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Matcher ignoring `/_next/` and `/api/`
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)'],
+  // Matcher ignoring `/_next/`, `/api/`, and `/monitoring`
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|monitoring).*)'],
 };
