@@ -7,7 +7,7 @@ on:
     branches: ['**']
 
 permissions:
-  contents: write
+  contents: read
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -17,11 +17,12 @@ jobs:
     name: Auto Format Code
     runs-on: ubuntu-latest
     if: github.actor != 'github-actions[bot]'
+    permissions:
+      contents: ${{ github.event_name == 'push' && 'write' || 'read' }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
           fetch-depth: 0
 
       - name: Setup Node.js
@@ -37,6 +38,7 @@ jobs:
         run: npx prettier --write "."
 
       - name: Commit changes
+        if: github.event_name == 'push'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 'style: applied auto-formatting with prettier'
