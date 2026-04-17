@@ -53,6 +53,14 @@ export interface Dictionary {
     newsletterUpdates: string;
     subscriptionProcessing: string;
     inquiries: string;
+    usageHeader: string;
+    rightsHeader: string;
+    retentionHeader: string;
+    retentionDesc: string;
+    processorHeader: string;
+    processorDesc: string;
+    controllerHeader: string;
+    controllerDesc: string;
     consent: string;
     access: string;
     correction: string;

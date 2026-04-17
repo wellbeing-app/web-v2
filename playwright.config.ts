@@ -31,7 +31,15 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
     {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
       name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
+    {
+      name: 'mobile-safari',
       use: { ...devices['Mobile Safari'] },
     },
   ],
