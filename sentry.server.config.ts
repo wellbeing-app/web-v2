@@ -17,3 +17,7 @@ Sentry.init({
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
   sendDefaultPii: true,
 });
+
+// Verify Sentry Metrics
+Sentry.metrics.count('test_metric', 1);
+
