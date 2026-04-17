@@ -4,16 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && npm run sentry:sourcemaps",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
     "test:e2e": "playwright test",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org anna-zezulka --project javascript-nextjs .next && sentry-cli sourcemaps upload --org anna-zezulka --project javascript-nextjs .next"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.8.3",
+    "@sentry/cli": "^2.58.5",
     "@sentry/nextjs": "^10.49.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
