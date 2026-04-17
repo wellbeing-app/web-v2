@@ -16,7 +16,9 @@ export default function PrivacyPage() {
         <h1 className="text-4xl font-bold">{dict.contact.privacyLink}</h1>
 
         <div className="prose prose-sm max-w-none">
-          <p>{dict.privacy.lastUpdated}: {new Date().toLocaleDateString()}</p>
+          <p>
+            {dict.privacy.lastUpdated}: {new Date().toLocaleDateString()}
+          </p>
 
           <h2>{dict.privacy.weCollect}</h2>
           <p>{dict.privacy.weCollectDesc}</p>
