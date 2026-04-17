@@ -23,7 +23,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ received: true }, { status: 200 });
   } catch (error) {
-    console.error('Failed to parse CSP report:', error);
     Sentry.captureException(error);
     return NextResponse.json({ error: 'Invalid report' }, { status: 400 });
   }
