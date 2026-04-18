@@ -19,9 +19,9 @@ export function PageWrapper() {
       <StackedCards
         cards={[
           { id: 'home', component: <Hero /> },
-          { id: 'vision', component: <Mission /> },
-          { id: 'features', component: <Features /> },
-          { id: 'team', component: <Team /> },
+          { id: 'vision', component: <Mission />, href: '/vision' },
+          { id: 'features', component: <Features />, href: '/features' },
+          { id: 'team', component: <Team />, href: '/team' },
           { id: 'contact', component: <WaitlistForm /> },
         ]}
       />

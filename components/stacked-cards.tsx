@@ -2,26 +2,58 @@
 
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, type MotionStyle } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Maximize2 } from 'lucide-react';
 import { Footer } from './footer';
 import { useLenis } from './providers/smooth-scroll';
 import { useDictionary } from './providers/dictionary-provider';
+import { useRouter, useParams } from 'next/navigation';
 
 interface CardData {
   id: string;
   component: React.ReactNode;
+  href?: string;
 }
 
 interface StackedCardsProps {
   cards: CardData[];
 }
 
-function CardPill({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
+function CardPill({
+  children,
+  style,
+  showFullscreen,
+  href,
+}: {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+  showFullscreen?: boolean;
+  href?: string;
+}) {
+  const router = useRouter();
+  const params = useParams();
+  const lang = params.lang as string;
+
+  const onFullscreenClick = () => {
+    if (href) {
+      router.push(`/${lang}${href}`);
+    }
+  };
+
   return (
     <div
-      className="w-full max-w-200 h-[70vh] bg-card border border-border rounded-4xl p-10 md:p-16 flex flex-col items-center justify-center text-center overflow-y-auto no-scrollbar"
+      className="w-full max-w-200 h-[70vh] bg-card border border-border rounded-4xl p-10 md:p-16 flex flex-col items-center justify-center text-center overflow-y-auto no-scrollbar relative group/card"
       style={style}
     >
+      {showFullscreen && (
+        <button
+          type="button"
+          onClick={onFullscreenClick}
+          className="absolute top-6 right-6 p-3 rounded-2xl glass border border-border/50 bg-secondary/20 text-secondary-foreground/60 hover:text-secondary-foreground hover:bg-secondary/40 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer z-20"
+          aria-label="Fullscreen"
+        >
+          <Maximize2 className="h-5 w-5" />
+        </button>
+      )}
       {children}
     </div>
   );
@@ -93,7 +125,9 @@ function StackingCard({
           className="w-full max-w-200 h-[70vh] flex items-center justify-center will-change-transform"
           style={{ scale, opacity, filter }}
         >
-          <CardPill>{card.component}</CardPill>
+          <CardPill showFullscreen={index > 0} href={card.href}>
+            {card.component}
+          </CardPill>
         </motion.div>
         <NextSlideButton targetId={nextId} label={label} style={{ opacity, filter }} />
       </div>
@@ -108,7 +142,7 @@ function FinalCard({ card, index }: { card: CardData; index: number }) {
       className="relative h-dvh flex items-center justify-center px-4"
       style={{ zIndex: index }}
     >
-      <CardPill>{card.component}</CardPill>
+      <CardPill href={card.href}>{card.component}</CardPill>
       <Footer />
     </section>
   );
