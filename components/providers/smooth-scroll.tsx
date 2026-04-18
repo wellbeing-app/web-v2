@@ -1,44 +1,50 @@
 'use client';
 
-import { ReactNode, useLayoutEffect, useRef } from 'react';
+import {
+  createContext,
+  ReactNode,
+  RefObject,
+  useContext,
+  useLayoutEffect,
+  useRef,
+} from 'react';
 import Lenis from 'lenis';
 
-interface SmoothScrollProps {
-  children: ReactNode;
-}
+type LenisRef = RefObject<Lenis | null>;
 
-/**
- * SmoothScroll Provider
- *
- * Initialized Lenis for inertial/momentum scrolling.
- * Follows Apple's cinematic presentation style.
- */
-export function SmoothScroll({ children }: SmoothScrollProps) {
-  const rafHandle = useRef<number | null>(null);
+const LenisContext = createContext<LenisRef>({ current: null });
+
+export const useLenis = (): LenisRef => useContext(LenisContext);
+
+export function SmoothScroll({ children }: { children: ReactNode }) {
+  const lenisRef = useRef<Lenis | null>(null);
 
   useLayoutEffect(() => {
     const instance = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 0.9,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1,
-      touchMultiplier: 2,
+      touchMultiplier: 1.5,
     });
 
-    function raf(time: number) {
-      instance.raf(time);
-      rafHandle.current = requestAnimationFrame(raf);
-    }
+    lenisRef.current = instance;
 
-    rafHandle.current = requestAnimationFrame(raf);
+    let rafId = 0;
+    const raf = (time: number) => {
+      instance.raf(time);
+      rafId = requestAnimationFrame(raf);
+    };
+    rafId = requestAnimationFrame(raf);
 
     return () => {
-      if (rafHandle.current) cancelAnimationFrame(rafHandle.current);
+      cancelAnimationFrame(rafId);
       instance.destroy();
+      lenisRef.current = null;
     };
   }, []);
 
-  return <>{children}</>;
+  return <LenisContext.Provider value={lenisRef}>{children}</LenisContext.Provider>;
 }
