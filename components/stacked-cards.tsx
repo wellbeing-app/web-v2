@@ -52,20 +52,23 @@ function CardPill({
   style,
   showFullscreen,
   href,
+  layoutId,
 }: {
   children: React.ReactNode;
   style?: React.CSSProperties;
   showFullscreen?: boolean;
   href?: string;
+  layoutId?: string;
 }) {
   return (
-    <div
-      className="w-full max-w-200 h-[70vh] bg-card border border-border rounded-4xl p-10 md:p-16 flex flex-col items-center justify-center text-center overflow-y-auto no-scrollbar relative group/card"
+    <motion.div
+      layoutId={layoutId}
+      className="w-full max-w-200 h-[70vh] bg-card border border-border rounded-4xl p-10 md:p-12 flex flex-col items-center justify-center text-center overflow-y-auto no-scrollbar relative group/card"
       style={style}
     >
       {showFullscreen && href && <FullscreenButton href={href} />}
       {children}
-    </div>
+    </motion.div>
   );
 }
 
@@ -135,7 +138,11 @@ function StackingCard({
           className="w-full max-w-200 h-[70vh] flex items-center justify-center will-change-transform"
           style={{ scale, opacity, filter }}
         >
-          <CardPill showFullscreen={index > 0} href={card.href}>
+          <CardPill 
+            showFullscreen={index > 0} 
+            href={card.href}
+            layoutId={card.href ? `card-${card.id}` : undefined}
+          >
             {card.component}
           </CardPill>
         </motion.div>
@@ -152,7 +159,12 @@ function FinalCard({ card, index }: { card: CardData; index: number }) {
       className="relative h-dvh flex items-center justify-center px-4"
       style={{ zIndex: index }}
     >
-      <CardPill href={card.href}>{card.component}</CardPill>
+      <CardPill 
+        href={card.href}
+        layoutId={card.href ? `card-${card.id}` : undefined}
+      >
+        {card.component}
+      </CardPill>
       <Footer />
     </section>
   );
@@ -170,10 +182,13 @@ function MobileSection({
       id={card.id}
       className="relative px-4 py-6 flex justify-center"
     >
-      <div className="relative w-full bg-card border border-border rounded-3xl p-6 sm:p-8 flex flex-col items-center justify-center text-center">
+      <motion.div 
+        layoutId={showFullscreen && card.href ? `card-${card.id}` : undefined}
+        className="relative w-full bg-card border border-border rounded-3xl p-6 sm:p-8 flex flex-col items-center justify-center text-center"
+      >
         {showFullscreen && card.href && <FullscreenButton href={card.href} />}
         {card.component}
-      </div>
+      </motion.div>
     </section>
   );
 }
@@ -196,7 +211,7 @@ export function StackedCards({ cards }: StackedCardsProps) {
   if (!isDesktop) {
     const lastIndex = cards.length - 1;
     return (
-      <div className="w-full flex flex-col">
+      <div className="w-full flex flex-col pt-24 pb-20 relative">
         {cards.map((card, i) => (
           <MobileSection
             key={card.id}

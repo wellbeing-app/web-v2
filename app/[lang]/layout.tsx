@@ -74,8 +74,12 @@ const fontVariables = `${GeistSans.variable} ${GeistMono.variable} ${GeistPixelS
 
 export default async function RootLayout({
   children,
+  modal,
   params,
-}: React.PropsWithChildren<{ params: Promise<{ lang: string }> }>) {
+}: React.PropsWithChildren<{
+  modal: React.ReactNode;
+  params: Promise<{ lang: string }>;
+}>) {
   const resolvedParams = await params;
   const dictionary = await getDictionary(resolvedParams.lang as 'en' | 'cs');
 
@@ -129,6 +133,7 @@ export default async function RootLayout({
               <Navbar lang={resolvedParams.lang} />
               <main id="main-content" className="flex-1 focus:outline-none">
                 {children}
+                {modal}
               </main>
             </ThemeProvider>
           </DictionaryProvider>
