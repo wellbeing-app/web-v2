@@ -49,6 +49,7 @@ export function SectionSnap({ sectionIds, duration = 0.9 }: SectionSnapProps) {
       lenis.scrollTo(tops[idx], {
         duration: chained ? CHAINED_DURATION : duration,
         lock: true,
+        force: true,
         onComplete: () => {
           if (targetIndexRef.current === idx) targetIndexRef.current = null;
         },
