@@ -1,10 +1,18 @@
-import { BookHeart, Wind, Users } from 'lucide-react';
+import { BookHeart, Wind, Users, UserRound, Moon, Sparkles, Target, BarChart3, ShieldAlert } from 'lucide-react';
 import { useDictionary } from '@/components/providers/dictionary-provider';
 
-export function Features() {
+interface FeaturesProps {
+  full?: boolean;
+}
+
+export function Features({ full = false }: FeaturesProps) {
   const dict = useDictionary();
   
   const featureIcons = [BookHeart, Wind, Users];
+  const fullFeatureIcons = [UserRound, BookHeart, Moon, Sparkles, Target, BarChart3, ShieldAlert];
+
+  const displayList = full ? dict.features.fullList : dict.features.list;
+  const displayIcons = full ? fullFeatureIcons : featureIcons;
 
   return (
     <section id="features" className="space-y-12 flex flex-col items-center py-10">
@@ -17,9 +25,9 @@ export function Features() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full px-4">
-        {dict.features.list.map((feature, index) => {
-          const Icon = featureIcons[index] || BookHeart;
+      <div className={`grid grid-cols-1 ${full ? 'md:grid-cols-2 lg:grid-cols-3' : 'md:grid-cols-3'} gap-8 w-full px-4`}>
+        {displayList.map((feature, index) => {
+          const Icon = displayIcons[index] || BookHeart;
           return (
             <div
               key={index}

@@ -14,11 +14,17 @@ export interface Dictionary {
   vision: {
     title: string;
     description: string;
+    marketAnalysisTitle: string;
+    marketAnalysis: string;
   };
   features: {
     title: string;
     description: string;
     list: Array<{
+      title: string;
+      desc: string;
+    }>;
+    fullList: Array<{
       title: string;
       desc: string;
     }>;
