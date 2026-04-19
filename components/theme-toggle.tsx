@@ -4,12 +4,33 @@ import * as React from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
+const THEME_TRANSITION_MS = 500;
+
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
+  const timerRef = React.useRef<number | null>(null);
+
+  React.useEffect(() => {
+    return () => {
+      if (timerRef.current !== null) window.clearTimeout(timerRef.current);
+    };
+  }, []);
+
+  const toggle = () => {
+    const next = resolvedTheme === 'dark' ? 'light' : 'dark';
+    const root = document.documentElement;
+    root.classList.add('theme-switching');
+    setTheme(next);
+    if (timerRef.current !== null) window.clearTimeout(timerRef.current);
+    timerRef.current = window.setTimeout(() => {
+      root.classList.remove('theme-switching');
+      timerRef.current = null;
+    }, THEME_TRANSITION_MS);
+  };
 
   return (
     <button
-      onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+      onClick={toggle}
       className="w-9 h-9 rounded-full hover:bg-secondary/50 transition-all duration-300 flex items-center justify-center text-foreground/80 hover:text-foreground cursor-pointer"
       aria-label="Toggle theme"
     >

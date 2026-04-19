@@ -27,12 +27,6 @@ function ThemeCookieSync() {
 }
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-  React.useEffect(() => {
-    setTimeout(() => {
-      document.documentElement.classList.remove('disable-transitions');
-    }, 10);
-  }, []);
-
   return (
     <NextThemesProvider {...props}>
       <ThemeCookieSync />

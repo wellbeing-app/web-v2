@@ -152,12 +152,32 @@
     -webkit-backdrop-filter: blur(24px) saturate(120%);
     border: 1px solid var(--glass-border);
   }
-  .theme-transition {
-    @apply transition-colors duration-500 ease-in-out;
+  /* Synchronized, site-wide cross-fade for every color-bearing property while a
+   * theme toggle is in flight. Scoped to `theme-switching` on <html> so we pay
+   * no transition cost on regular hover/click elsewhere. */
+  html.theme-switching,
+  html.theme-switching *,
+  html.theme-switching *::before,
+  html.theme-switching *::after {
+    transition:
+      background-color 500ms ease,
+      border-color 500ms ease,
+      color 500ms ease,
+      fill 500ms ease,
+      stroke 500ms ease,
+      box-shadow 500ms ease,
+      backdrop-filter 500ms ease,
+      -webkit-backdrop-filter 500ms ease !important;
+    transition-delay: 0s !important;
   }
 
-  .theme-transition-all {
-    @apply transition-all duration-500 ease-in-out;
+  @media (prefers-reduced-motion: reduce) {
+    html.theme-switching,
+    html.theme-switching *,
+    html.theme-switching *::before,
+    html.theme-switching *::after {
+      transition: none !important;
+    }
   }
 
   @keyframes fade-in {
