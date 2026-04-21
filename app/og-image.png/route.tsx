@@ -1,10 +1,19 @@
 import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import * as Sentry from '@sentry/nextjs';
 
-const fontRegular = fetch(new URL('../../lib/fonts/GeistMono-Regular.ttf', import.meta.url)).then(
-  (res) => res.arrayBuffer()
-);
+// Lazy-loaded font cache (avoid top-level fetch which fails during Vercel build)
+let fontCache: ArrayBuffer | null = null;
+
+async function loadFont(): Promise<ArrayBuffer> {
+  if (fontCache) return fontCache;
+  const fontPath = join(process.cwd(), 'lib/fonts/GeistMono-Regular.ttf');
+  const buffer = await readFile(fontPath);
+  fontCache = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
+  return fontCache;
+}
 
 export async function GET(req: NextRequest) {
   try {
@@ -24,7 +33,7 @@ export async function GET(req: NextRequest) {
     };
 
     const dict = dictionaries[lang] || dictionaries.en;
-    const fontData = await fontRegular;
+    const fontData = await loadFont();
 
     // Brand colors from design system
     const colors = {

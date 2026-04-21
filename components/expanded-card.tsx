@@ -88,7 +88,7 @@ export function ExpandedCard({ children, label = 'Expanded view' }: ExpandedCard
           {/* Mobile close — thumb-reachable, safe-area aware */}
           <button
             onClick={handleClose}
-            className="md:hidden fixed right-4 z-[60] flex items-center justify-center p-3 rounded-full glass border border-border/50 bg-secondary/30 text-secondary-foreground shadow-xl hover:bg-secondary/50 transition-all duration-200 cursor-pointer"
+            className="md:hidden fixed right-4 z-60 flex items-center justify-center p-3 rounded-full glass border border-border/50 bg-secondary/30 text-secondary-foreground shadow-xl hover:bg-secondary/50 transition-all duration-200 cursor-pointer"
             style={{ bottom: 'calc(1rem + var(--safe-bottom))' }}
             aria-label="Close"
           >
