@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform, type MotionStyle } from 'framer-motion';
 import { ChevronDown, Maximize2 } from 'lucide-react';
 import { Footer } from './footer';
@@ -189,6 +189,53 @@ function MobileSection({
 export function StackedCards({ cards }: StackedCardsProps) {
   const dict = useDictionary();
   const isDesktop = useIsDesktop();
+  const lenisRef = useLenis();
+
+  // Sync current card to URL hash for deep-linking and language-switching preservation
+  useEffect(() => {
+    const lenis = lenisRef.current;
+    if (!lenis || !isDesktop) return;
+
+    const onScroll = () => {
+      // Find the card that is currently in the center of the viewport
+      const scroll = lenis.scroll;
+      const center = scroll + window.innerHeight / 2;
+      
+      let currentActiveId = cards[0].id;
+      for (const card of cards) {
+        const el = document.getElementById(card.id);
+        if (el && el.offsetTop <= center) {
+          currentActiveId = card.id;
+        }
+      }
+
+      if (window.location.hash !== `#${currentActiveId}`) {
+        window.history.replaceState(null, '', `#${currentActiveId}`);
+      }
+    };
+
+    lenis.on('scroll', onScroll);
+    // Initial check
+    onScroll();
+
+    return () => lenis.off('scroll', onScroll);
+  }, [lenisRef, cards, isDesktop]);
+
+  // Handle initial hash on mount (for language switching preservation)
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const id = hash.substring(1);
+      const el = document.getElementById(id);
+      const lenis = lenisRef.current;
+      if (el && lenis) {
+        // Immediate scroll to target if hash exists
+        setTimeout(() => {
+          lenis.scrollTo(el, { immediate: true });
+        }, 100);
+      }
+    }
+  }, [lenisRef]);
 
   if (!isDesktop) {
     const lastIndex = cards.length - 1;

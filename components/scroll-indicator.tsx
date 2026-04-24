@@ -2,16 +2,12 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useLenis } from './providers/smooth-scroll';
+import { useDictionary } from './providers/dictionary-provider';
 
-const sections = [
-  { id: 'home', label: 'Home' },
-  { id: 'vision', label: 'Vision' },
-  { id: 'features', label: 'Features' },
-  { id: 'team', label: 'Team' },
-  { id: 'contact', label: 'Contact' },
-];
+const SECTION_IDS = ['home', 'vision', 'features', 'team', 'developer', 'contact'] as const;
 
 export function ScrollIndicator() {
+  const dict = useDictionary();
   const [activeId, setActiveId] = useState<string>('home');
   const elementsCache = useRef<Record<string, HTMLElement>>({});
   const lenisRef = useLenis();
@@ -19,29 +15,23 @@ export function ScrollIndicator() {
   const determineActiveSection = useCallback(() => {
     if (typeof window === 'undefined') return;
 
-    if (window.scrollY < 50) {
-      setActiveId('home');
-      return;
-    }
-
-    const triggerPoint = window.innerHeight / 2;
-    let foundId = sections[0].id;
-
-    for (const section of sections) {
-      let element = elementsCache.current[section.id];
+    // Use the same logic as hash syncing for consistency
+    const scroll = window.scrollY;
+    const center = scroll + window.innerHeight / 2;
+    
+    let foundId: string = SECTION_IDS[0];
+    for (const id of SECTION_IDS) {
+      let element = elementsCache.current[id];
       if (!element) {
-        const el = document.getElementById(section.id);
+        const el = document.getElementById(id);
         if (el) {
           element = el;
-          elementsCache.current[section.id] = el;
+          elementsCache.current[id] = el;
         }
       }
 
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        if (rect.top <= triggerPoint) {
-          foundId = section.id;
-        }
+      if (element && element.offsetTop <= center) {
+        foundId = id;
       }
     }
 
@@ -50,13 +40,11 @@ export function ScrollIndicator() {
 
   useEffect(() => {
     window.addEventListener('scroll', determineActiveSection, { passive: true });
-    const rafId = requestAnimationFrame(determineActiveSection);
-    const timer = setTimeout(determineActiveSection, 100);
+    // Run once on mount
+    determineActiveSection();
 
     return () => {
       window.removeEventListener('scroll', determineActiveSection);
-      cancelAnimationFrame(rafId);
-      clearTimeout(timer);
     };
   }, [determineActiveSection]);
 
@@ -71,6 +59,15 @@ export function ScrollIndicator() {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+
+  const sections = [
+    { id: 'home', label: dict.nav.nav_home },
+    { id: 'vision', label: dict.nav.nav_vision },
+    { id: 'features', label: dict.nav.nav_features },
+    { id: 'team', label: dict.nav.nav_team },
+    { id: 'developer', label: dict.nav.nav_developer },
+    { id: 'contact', label: dict.nav.nav_contact },
+  ];
 
   return (
     <nav

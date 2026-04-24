@@ -18,8 +18,9 @@ export function LanguageSwitcher({ lang }: { lang: string }) {
     if (!pathname) return;
     const segments = pathname.split('/');
     segments[1] = newLocale;
+    const hash = window.location.hash;
     startTransition(() => {
-      router.push(segments.join('/'));
+      router.push(segments.join('/') + hash);
     });
   };
 

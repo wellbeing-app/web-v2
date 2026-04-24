@@ -14,7 +14,7 @@ export function Mission({ isFullPage = false }: MissionProps) {
   const lang = params.lang as string;
 
   return (
-    <div className="relative w-full flex flex-col items-center justify-center overflow-hidden rounded-4xl shadow-xs">
+    <div className="relative w-full flex flex-col items-center justify-center overflow-hidden rounded-4xl shadow-xs animate-fade-in">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

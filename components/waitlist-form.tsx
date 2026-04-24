@@ -29,7 +29,7 @@ export function WaitlistForm() {
   };
 
   return (
-    <div className="relative space-y-8 flex flex-col items-center w-full max-w-2xl mx-auto">
+    <div className="relative space-y-8 flex flex-col items-center w-full max-w-2xl mx-auto animate-fade-in">
       <div className="space-y-4 text-center">
         <h2 className="text-3xl md:text-5xl font-bold tracking-tight">{dict.contact.title}</h2>
         <p className="text-lg text-muted-foreground">{dict.contact.description}</p>

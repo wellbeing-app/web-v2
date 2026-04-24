@@ -137,7 +137,7 @@ export function DeveloperFriendly({ isFullPage = false }: DeveloperFriendlyProps
   const currentAction = sequence[step];
 
   return (
-    <div className="relative space-y-8 flex flex-col items-center w-full max-w-2xl mx-auto font-sans">
+    <div className="relative space-y-8 flex flex-col items-center w-full max-w-2xl mx-auto font-sans animate-fade-in">
       <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-secondary/30 border border-border backdrop-blur-sm">
         <Terminal className="w-8 h-8 text-foreground" />
       </div>

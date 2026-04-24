@@ -19,7 +19,7 @@ export function Features({ full = false }: FeaturesProps) {
   const displayIcons = full ? fullFeatureIcons : featureIcons;
 
   return (
-    <div className="relative space-y-6 md:space-y-12 flex flex-col items-center py-4 md:py-10">
+    <div className="relative space-y-6 md:space-y-12 flex flex-col items-center py-4 md:py-10 animate-fade-in">
       <div className="space-y-2 md:space-y-4 text-center max-w-2xl px-4 flex flex-col items-center">
         <h2 className="text-2xl md:text-5xl font-bold tracking-tight text-foreground transition-colors duration-300">
           {dict.features.title}

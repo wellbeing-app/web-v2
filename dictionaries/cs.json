@@ -45,7 +45,7 @@
     "description": "Navrženo pro váš klid.",
     "tryItLink": "Vyzkoušet",
     "list": [
-      { "title": "Deník nálad", "desc": "Sledujte své emoce v čase" },
+      { "title": "AI funkce", "desc": "Volitelné AI funkce, ve výchozím nastavení vypnuté" },
       { "title": "Dechová cvičení", "desc": "Okamžitá úleva od stresu" },
       { "title": "Komunitní podpora", "desc": "Nejste v tom sami" }
     ],
@@ -97,7 +97,7 @@
   },
   "developer": {
     "title": "Přátelské k vývojářům",
-    "description": "Věříme v otevřené ekosystémy. Postaveno na Next.js, plně přizpůsobitelné a navržené s ohledem na vývojáře.",
+    "description": "Věříme v otevřený ekosystém. Náš kód je open-source a vítáme příspěvky. Klademe důraz na kontrolu nad daty a plánujeme vytvoření API.",
     "moreLink": "Technické informace",
     "githubLink": "Zobrazit na GitHubu"
   },
