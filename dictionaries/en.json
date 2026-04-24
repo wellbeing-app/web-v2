@@ -8,6 +8,7 @@
     "nav_vision": "Vision",
     "nav_features": "Features",
     "nav_team": "Team",
+    "nav_developer": "Dev",
     "nav_contact": "Contact"
   },
   "home": {
@@ -16,7 +17,21 @@
     "description": "No pressure. No rules. Just a safe place designed for your peace and daily balance. Free for everyone. Forever.",
     "supportBtn": "I want to help",
     "newsletterBtn": "Keep me updated",
-    "targetPlatforms": "Target platforms"
+    "targetPlatforms": "Target platforms",
+    "mood_label": "How are you feeling today?",
+    "mood_low": "Low",
+    "mood_neutral": "Neutral",
+    "mood_great": "Great",
+    "rotatingPhrases": [
+      "RULER method",
+      "Inspired by CBT",
+      "Science-backed",
+      "Transparent",
+      "Open-source",
+      "Optional AI",
+      "Local-first",
+      "Personalization"
+    ]
   },
   "vision": {
     "title": "Our Vision",
@@ -79,6 +94,12 @@
       "vyvoj": "Development"
     },
     "moreLink": "And more"
+  },
+  "developer": {
+    "title": "Developer Friendly",
+    "description": "We believe in open ecosystems. Built on Next.js, fully customizable, and designed with developers in mind.",
+    "moreLink": "Technical information",
+    "githubLink": "View on GitHub"
   },
   "contact": {
     "title": "Stay in Touch",

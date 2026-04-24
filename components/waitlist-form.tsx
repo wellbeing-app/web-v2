@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useDictionary } from '@/components/providers/dictionary-provider';
+import { Mail } from 'lucide-react';
 
 export function WaitlistForm() {
   const dict = useDictionary();
@@ -28,54 +29,79 @@ export function WaitlistForm() {
   };
 
   return (
-    <div className="relative space-y-8 flex flex-col items-center w-full max-w-md mx-auto">
-      <div className="space-y-4">
+    <div className="relative space-y-8 flex flex-col items-center w-full max-w-2xl mx-auto">
+      <div className="space-y-4 text-center">
         <h2 className="text-3xl md:text-5xl font-bold tracking-tight">{dict.contact.title}</h2>
         <p className="text-lg text-muted-foreground">{dict.contact.description}</p>
       </div>
 
-      {!submitted ? (
-        <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-2">
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setError('');
-              }}
-              placeholder={dict.contact.emailPlaceholder}
-              aria-label={dict.contact.emailLabel}
-              aria-invalid={error ? 'true' : 'false'}
-              aria-describedby={error ? 'email-error' : undefined}
-              className={`w-full px-6 py-3.5 min-h-11 rounded-full bg-secondary/20 border border-border outline-hidden focus:ring-2 focus:ring-primary/20 transition-all ${error ? 'border-red-500' : ''}`}
-            />
-            {error && (
-              <p id="email-error" className="text-sm text-red-500" role="alert">
-                {error}
-              </p>
-            )}
+      <div className="w-full max-w-md">
+        {!submitted ? (
+          <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-2">
+              <div className="relative flex items-center">
+                <Mail className="absolute left-6 w-5 h-5 text-muted-foreground" aria-hidden="true" />
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setError('');
+                  }}
+                  placeholder={dict.contact.emailPlaceholder}
+                  aria-label={dict.contact.emailLabel}
+                  aria-invalid={error ? 'true' : 'false'}
+                  aria-describedby={error ? 'email-error' : undefined}
+                  className={`w-full pl-14 pr-6 py-3.5 min-h-11 rounded-full bg-secondary/20 border border-border outline-hidden focus:ring-2 focus:ring-primary/20 transition-all ${error ? 'border-red-500' : ''}`}
+                />
+              </div>
+              {error && (
+                <p id="email-error" className="text-sm text-red-500" role="alert">
+                  {error}
+                </p>
+              )}
+            </div>
+            <div className="flex items-start gap-3 mt-1">
+              <div className="flex items-center h-5 mt-0.5">
+                <input
+                  id="gdpr-consent"
+                  type="checkbox"
+                  required
+                  className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20 transition-colors cursor-pointer"
+                />
+              </div>
+              <label htmlFor="gdpr-consent" className="text-xs text-muted-foreground text-left leading-relaxed cursor-pointer select-none">
+                {dict.contact.privacyText}{' '}
+                <Link href="/privacy" className="text-primary hover:underline" onClick={(e) => e.stopPropagation()}>
+                  {dict.contact.privacyLink}
+                </Link>
+              </label>
+            </div>
+            
+            <button
+              type="submit"
+              className="bg-primary text-primary-foreground px-8 py-3.5 min-h-11 rounded-full font-medium transition-all hover:bg-primary/90 mt-2"
+            >
+              {dict.contact.submitBtn}
+            </button>
+          </form>
+        ) : (
+          <div className="w-full p-6 bg-secondary/20 border border-border rounded-3xl text-center animate-fade-in">
+            <p className="text-foreground font-medium">{dict.contact.successMessage}</p>
           </div>
-          <button
-            type="submit"
-            className="bg-primary text-primary-foreground px-8 py-3.5 min-h-11 rounded-full font-medium transition-all hover:bg-primary/90"
-          >
-            {dict.contact.submitBtn}
-          </button>
-        </form>
-      ) : (
-        <div className="w-full p-4 bg-green-50 border border-green-200 rounded-lg">
-          <p className="text-green-800 font-medium">{dict.contact.successMessage}</p>
-        </div>
-      )}
+        )}
 
-      <p className="text-sm text-muted-foreground text-center">
-        {dict.contact.privacyText}{' '}
-        <Link href="/privacy" className="text-primary hover:underline">
-          {dict.contact.privacyLink}
-        </Link>
-      </p>
+        <div className="mt-8 pt-8 border-t border-border/50 flex flex-col items-center">
+          <a 
+            href="mailto:placeholder@wellbeing-app.org"
+            className="group flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors duration-300"
+          >
+            <Mail className="w-5 h-5 transition-transform group-hover:scale-110" />
+            <span className="font-medium">placeholder@wellbeing-app.org</span>
+          </a>
+        </div>
+      </div>
     </div>
   );
 }

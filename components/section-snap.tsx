@@ -20,6 +20,7 @@ export function SectionSnap({ sectionIds, duration = 0.9 }: SectionSnapProps) {
   const targetIndexRef = useRef<number | null>(null);
   const lastAdvanceAtRef = useRef(0);
   const touchStartYRef = useRef<number | null>(null);
+  const lastInnerScrollAtRef = useRef(0);
   const isDesktop = useIsDesktop();
 
   useEffect(() => {
@@ -73,7 +74,25 @@ export function SectionSnap({ sectionIds, duration = 0.9 }: SectionSnapProps) {
       if (Math.abs(e.deltaY) < WHEEL_THRESHOLD) return;
       if (!lenisRef.current) return;
       const target = e.target as Element | null;
-      if (target?.closest?.('[data-scroll-lock]')) return;
+      const scrollLockEl = target?.closest?.('[data-scroll-lock]');
+      if (scrollLockEl) {
+        const isScrollable = scrollLockEl.scrollHeight > scrollLockEl.clientHeight;
+        if (isScrollable) {
+          const atTop = scrollLockEl.scrollTop <= 0;
+          const atBottom = Math.abs(scrollLockEl.scrollHeight - scrollLockEl.scrollTop - scrollLockEl.clientHeight) < 1;
+          
+          if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
+            lastInnerScrollAtRef.current = performance.now();
+            return;
+          }
+          
+          if (performance.now() - lastInnerScrollAtRef.current < 600) {
+            return;
+          }
+        } else {
+          return;
+        }
+      }
       e.preventDefault();
       e.stopPropagation();
       advance(e.deltaY > 0 ? 1 : -1, WHEEL_COOLDOWN_MS);
@@ -105,9 +124,29 @@ export function SectionSnap({ sectionIds, duration = 0.9 }: SectionSnapProps) {
       if (touchStartYRef.current === null) return;
       if (!lenisRef.current) return;
       const target = e.target as Element | null;
-      if (target?.closest?.('[data-scroll-lock]')) return;
       const dy = touchStartYRef.current - (e.touches[0]?.clientY ?? touchStartYRef.current);
       if (Math.abs(dy) < TOUCH_THRESHOLD_PX) return;
+      
+      const scrollLockEl = target?.closest?.('[data-scroll-lock]');
+      if (scrollLockEl) {
+        const isScrollable = scrollLockEl.scrollHeight > scrollLockEl.clientHeight;
+        if (isScrollable) {
+          const atTop = scrollLockEl.scrollTop <= 0;
+          const atBottom = Math.abs(scrollLockEl.scrollHeight - scrollLockEl.scrollTop - scrollLockEl.clientHeight) < 1;
+          
+          if ((dy > 0 && !atBottom) || (dy < 0 && !atTop)) {
+            lastInnerScrollAtRef.current = performance.now();
+            return;
+          }
+          
+          if (performance.now() - lastInnerScrollAtRef.current < 600) {
+            return;
+          }
+        } else {
+          return;
+        }
+      }
+
       touchStartYRef.current = null;
       e.preventDefault();
       advance(dy > 0 ? 1 : -1, 0);

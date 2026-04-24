@@ -80,9 +80,9 @@ function NextSlideButton({
       style={style}
       className="flex-1 w-full flex items-center justify-center group will-change-transform cursor-pointer"
     >
-      <span className="inline-flex items-center gap-2 rounded-full glass border border-border/50 bg-secondary/30 text-secondary-foreground px-4 py-1.5 text-sm font-medium leading-none transition group-hover:bg-secondary/50">
+      <span className="inline-flex items-center gap-2 rounded-full glass border border-border/50 bg-secondary/30 text-secondary-foreground pl-6 pr-5 md:pl-7 md:pr-6 py-2 md:py-2.5 text-sm md:text-base font-medium leading-none transition group-hover:bg-secondary/50 group-hover:scale-105 active:scale-95 shadow-md">
         <span className="leading-none">{label}</span>
-        <ChevronDown className="h-4 w-4 shrink-0 translate-y-px" aria-hidden="true" />
+        <ChevronDown className="h-4 w-4 md:h-5 md:w-5 shrink-0" aria-hidden="true" />
       </span>
     </motion.button>
   );

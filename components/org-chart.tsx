@@ -5,6 +5,7 @@ import { motion, Variants } from 'framer-motion';
 import { team, type TeamNode } from '@/lib/team';
 import { useDictionary } from '@/components/providers/dictionary-provider';
 import { useIsDesktop } from '@/lib/use-is-desktop';
+import Image from 'next/image';
 
 interface ConnectionLine {
   id: string;
@@ -256,12 +257,16 @@ function MobilePersonRow({
       <div
         className={
           featured
-            ? 'w-16 h-16 rounded-full bg-muted flex items-center justify-center'
-            : 'w-10 h-10 shrink-0 rounded-full bg-muted flex items-center justify-center'
+            ? 'w-16 h-16 rounded-full bg-muted flex items-center justify-center overflow-hidden'
+            : 'w-10 h-10 shrink-0 rounded-full bg-muted flex items-center justify-center overflow-hidden'
         }
         aria-hidden="true"
       >
-        <span className="text-muted-foreground font-bold">{initials}</span>
+        {node.image ? (
+          <Image src={node.image} alt={node.name} width={featured ? 64 : 40} height={featured ? 64 : 40} className="object-cover w-full h-full" unoptimized />
+        ) : (
+          <span className="text-muted-foreground font-bold">{initials}</span>
+        )}
       </div>
       <div className={featured ? 'flex flex-col items-center' : 'flex flex-col min-w-0'}>
         <span className="font-semibold text-foreground leading-tight truncate">
@@ -321,10 +326,14 @@ function PersonCard({
       className="w-52 md:w-56 bg-card rounded-xl p-5 shadow-sm border border-border flex flex-col items-center text-center"
     >
       <div
-        className="w-14 h-14 rounded-full bg-muted mb-3 flex items-center justify-center"
+        className="w-14 h-14 rounded-full bg-muted mb-3 flex items-center justify-center overflow-hidden"
         aria-hidden="true"
       >
-        <span className="text-muted-foreground font-bold">{initials}</span>
+        {node.image ? (
+          <Image src={node.image} alt={node.name} width={56} height={56} className="object-cover w-full h-full" unoptimized />
+        ) : (
+          <span className="text-muted-foreground font-bold">{initials}</span>
+        )}
       </div>
       <h3 className="font-semibold text-foreground leading-tight">{node.name}</h3>
       {role && <p className="text-muted-foreground text-sm mt-1">{role}</p>}

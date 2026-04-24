@@ -1,18 +1,19 @@
 export type TeamNode =
-  | { kind: 'person'; id: string; name: string; children?: TeamNode[] }
+  | { kind: 'person'; id: string; name: string; image?: string; children?: TeamNode[] }
   | { kind: 'group'; id: string; children: TeamNode[] };
 
 export const team: TeamNode = {
   kind: 'person',
   id: 'anna',
   name: 'Anna Zezulka',
+  image: '/placeholder_1.png',
   children: [
     {
       kind: 'group',
       id: 'vedeni',
       children: [
-        { kind: 'person', id: 'sofia', name: 'Sofia Grycová' },
-        { kind: 'person', id: 'natalie', name: 'Natálie Neumannová' },
+        { kind: 'person', id: 'sofia', name: 'Sofia Grycová', image: '/placeholder_3.png' },
+        { kind: 'person', id: 'natalie', name: 'Natálie Neumannová', image: '/placeholder_2.png' },
       ],
     },
     {
@@ -25,10 +26,10 @@ export const team: TeamNode = {
 
 export function flattenPeople(
   node: TeamNode,
-): Array<{ id: string; name: string }> {
+): Array<{ id: string; name: string; image?: string }> {
   if (node.kind === 'person') {
     const rest = node.children?.flatMap(flattenPeople) ?? [];
-    return [{ id: node.id, name: node.name }, ...rest];
+    return [{ id: node.id, name: node.name, image: node.image }, ...rest];
   }
   return node.children.flatMap(flattenPeople);
 }

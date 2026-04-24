@@ -2,25 +2,48 @@
 
 import { useCallback, useRef, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { useDictionary } from '@/components/providers/dictionary-provider';
 import { MobileMenu } from '@/components/mobile-menu';
+import { useLenis } from '@/components/providers/smooth-scroll';
 
 export function Navbar({ lang }: { lang: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const dict = useDictionary();
+  const lenisRef = useLenis();
+  const pathname = usePathname();
+
   const closeMenu = useCallback(() => setIsOpen(false), []);
 
   const navLinks = [
-    { href: `/${lang}`, label: dict.nav.nav_home },
     { href: `/${lang}#vision`, label: dict.nav.nav_vision },
     { href: `/${lang}#features`, label: dict.nav.nav_features },
     { href: `/${lang}#team`, label: dict.nav.nav_team },
+    { href: `/${lang}#developer`, label: dict.nav.nav_developer },
     { href: `/${lang}#contact`, label: dict.nav.nav_contact },
   ];
+
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const [path, hash] = href.split('#');
+    
+    // Check if we're already on the path we're linking to
+    if (pathname === path) {
+      const target = hash ? document.getElementById(hash) : 0;
+      if (target !== null && lenisRef.current) {
+        e.preventDefault();
+        lenisRef.current.scrollTo(target, { 
+          duration: 0.6,
+          easing: (t) => 1 - Math.pow(1 - t, 3),
+          lock: true,
+          force: true
+        });
+      }
+    }
+  };
 
   return (
     <>
@@ -34,6 +57,7 @@ export function Navbar({ lang }: { lang: string }) {
             <Link
               href={`/${lang}`}
               className="text-xl font-bold tracking-tight transition-colors duration-300"
+              onClick={(e) => handleScroll(e, `/${lang}`)}
             >
               Wellbeing.
             </Link>
@@ -46,6 +70,7 @@ export function Navbar({ lang }: { lang: string }) {
                 key={link.label}
                 href={link.href}
                 className="h-9 inline-flex items-center text-sm font-medium text-foreground/80 hover:text-foreground transition-colors duration-300 px-3 rounded-full hover:bg-secondary/50"
+                onClick={(e) => handleScroll(e, link.href)}
               >
                 {link.label}
               </Link>
@@ -88,14 +113,17 @@ export function Navbar({ lang }: { lang: string }) {
         labelledBy="mobile-menu-label"
       >
         <h2 id="mobile-menu-label" className="sr-only">
-          {dict.nav.nav_home}
+          {dict.nav.nav_vision}
         </h2>
         {navLinks.map((link) => (
           <Link
             key={link.label}
             href={link.href}
             className="text-lg font-medium py-3 px-6 w-full text-center rounded-full bg-secondary/30 border border-border/50 backdrop-blur-sm hover:bg-secondary/50 transition-colors duration-300"
-            onClick={closeMenu}
+            onClick={(e) => {
+              handleScroll(e, link.href);
+              closeMenu();
+            }}
           >
             {link.label}
           </Link>

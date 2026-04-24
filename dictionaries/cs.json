@@ -8,15 +8,30 @@
     "nav_vision": "Vize",
     "nav_features": "Funkce",
     "nav_team": "Tým",
+    "nav_developer": "Vývoj",
     "nav_contact": "Kontakt"
   },
   "home": {
-    "badge": "Ve vývoji",
+    "badge": "Pre-seed fáze",
     "title": "Prostor pro mysl.",
     "description": "Žádný nátlak. Žádná pravidla. Pouze bezpečné místo navržené pro váš klid a rovnováhu v každodenním životě. Zdarma pro každého. Navždy.",
     "supportBtn": "Chci se zapojit",
-    "newsletterBtn": "Chci dostávat aktualizace",
-    "targetPlatforms": "Cílové platformy"
+    "newsletterBtn": "Chci vědět víc",
+    "targetPlatforms": "Cílové platformy",
+    "mood_label": "Jak se dnes cítíte?",
+    "mood_low": "Špatně",
+    "mood_neutral": "Neutrálně",
+    "mood_great": "Skvěle",
+    "rotatingPhrases": [
+      "Metoda RULER",
+      "Inspirováno CBT",
+      "Podloženo vědou",
+      "Transparentní",
+      "Open-source",
+      "Volitelná AI",
+      "Local-first",
+      "Personalizace"
+    ]
   },
   "vision": {
     "title": "Naše vize",
@@ -79,6 +94,12 @@
       "vyvoj": "Vývoj"
     },
     "moreLink": "A další"
+  },
+  "developer": {
+    "title": "Přátelské k vývojářům",
+    "description": "Věříme v otevřené ekosystémy. Postaveno na Next.js, plně přizpůsobitelné a navržené s ohledem na vývojáře.",
+    "moreLink": "Technické informace",
+    "githubLink": "Zobrazit na GitHubu"
   },
   "contact": {
     "title": "Zůstaňme v kontaktu",

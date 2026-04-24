@@ -11,6 +11,7 @@ export interface Dictionary {
     supportBtn: string;
     newsletterBtn: string;
     targetPlatforms: string;
+    rotatingPhrases: string[];
   };
   vision: {
     title: string;
@@ -38,6 +39,12 @@ export interface Dictionary {
     roles: Record<string, string>;
     groups: Record<string, string>;
     moreLink: string;
+  };
+  developer: {
+    title: string;
+    description: string;
+    moreLink: string;
+    githubLink: string;
   };
   contact: {
     title: string;

@@ -101,6 +101,6 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Matcher ignoring `/_next/`, `/api/`, and `/monitoring`
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|monitoring).*)'],
+  // Matcher ignoring `/_next/`, `/api/`, `/monitoring` and static media files
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|monitoring|.*\\.(?:png|jpg|jpeg|gif|svg|webp|avif|ico|mp4|webm)).*)'],
 };

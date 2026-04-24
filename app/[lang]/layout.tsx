@@ -9,8 +9,6 @@ import { getDictionary } from '@/lib/dictionary';
 import { Navbar } from '@/components/navbar';
 import { DictionaryProvider } from '@/components/providers/dictionary-provider';
 import { SmoothScroll } from '@/components/providers/smooth-scroll';
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const baseUrl = 'https://wellbeing.zezulka.me';
 
@@ -148,8 +146,6 @@ export default async function RootLayout({
             </ThemeProvider>
           </DictionaryProvider>
         </SmoothScroll>
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );

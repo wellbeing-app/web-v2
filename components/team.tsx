@@ -6,6 +6,8 @@ import { useDictionary } from '@/components/providers/dictionary-provider';
 import { OrgChart } from '@/components/org-chart';
 import { team, flattenPeople } from '@/lib/team';
 
+import Image from 'next/image';
+
 export function Team({ showChart = false }: { showChart?: boolean }) {
   const dict = useDictionary();
   const params = useParams();
@@ -31,7 +33,13 @@ export function Team({ showChart = false }: { showChart?: boolean }) {
                 key={member.id}
                 className="flex flex-col items-center gap-2 md:gap-3 p-3 md:p-6 rounded-2xl md:rounded-3xl bg-card border border-border/50 shadow-xs"
               >
-                <div className="w-14 h-14 md:w-24 md:h-24 rounded-full bg-accent animate-pulse" />
+                {member.image ? (
+                  <div className="relative w-14 h-14 md:w-24 md:h-24 rounded-full overflow-hidden border border-border/50">
+                    <Image src={member.image} alt={member.name} fill className="object-cover" unoptimized />
+                  </div>
+                ) : (
+                  <div className="w-14 h-14 md:w-24 md:h-24 rounded-full bg-accent animate-pulse" />
+                )}
                 <div className="text-center">
                   <h3 className="font-bold text-sm md:text-lg">{member.name}</h3>
                   <p className="text-muted-foreground text-xs sm:text-sm">{dict.team.roles[member.id]}</p>
